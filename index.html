@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="tailwind.min.css">
+</head>
+
+<body class="bg-gray-100">
+    <div class="max-w-md mx-auto mt-8 bg-white rounded shadow">
+        <h1 class="text-2xl text-center py-4 bg-gray-200">Todo List</h1>
+        <form id="todo-form" class="p-4">
+            <input type="text" id="todo-input" class="w-full p-2 border border-gray-300 rounded"
+                placeholder="ادخل المهمه" required>
+            <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">اضافة مهمه</button>
+        </form>
+        <ul id="todo-list" class="divide-y divide-gray-300"></ul>
+    </div>
+
+    <script>
+        // Get references to HTML elements
+        const todoForm = document.getElementById('todo-form');
+        const todoInput = document.getElementById('todo-input');
+        const todoList = document.getElementById('todo-list');
+
+        // Add event listener to the form
+        todoForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent form submission
+            const task = todoInput.value.trim(); // Get the task value
+
+            if (task !== '') {
+                // Create a new list item
+                const listItem = document.createElement('li');
+                listItem.classList.add('p-4');
+
+                // Create a span element to display the task
+                const taskSpan = document.createElement('span');
+                taskSpan.textContent = task;
+
+                // Create delete and edit buttons
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'حذف';
+                deleteButton.classList.add('px-2', 'py-1', 'bg-red-500', 'text-whit', 'rounded', 'mr-2');
+                deleteButton.addEventListener('click', () => {
+                    listItem.remove(); // Remove the list item when delete button is clicked
+                });
+
+                const editButton = document.createElement('button');
+                editButton.textContent = 'تحرير';
+                editButton.classList.add('px-2', 'py-1', 'bg-green-500', 'text-white', 'rounded');
+                editButton.addEventListener('click', () => {
+                    const newTask = prompt('ادخل مهمه جديدة'); // Prompt the user to enter a new task
+                    if (newTask !== null && newTask.trim() !== '') {
+                        taskSpan.textContent = newTask; // Update the task span with the new task
+                    }
+                });
+
+                // Add the task span, delete button, and edit button to the list item
+                listItem.appendChild(taskSpan);
+                listItem.appendChild(deleteButton);
+                listItem.appendChild(editButton);
+
+                // Add the list item to the todo list
+                todoList.appendChild(listItem);
+
+                // Clear the input field
+                todoInput.value = '';
+            }
+        });
+    </script>
+</body>
+
+</html>
